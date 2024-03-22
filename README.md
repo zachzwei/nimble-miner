@@ -1,118 +1,119 @@
----
-description: A short guide to mining on Nimble
----
+# Nimble Network
+ Nimble is building the first-ever decentralized AI framework. This guide is for educational purposes only. Use at your own risk.
 
-# Mining on Nimble
+## Mining Nimble on Ubuntu
 
-## Community Setup Guide
+Source: [https://github.com/nimble-technology/nimble-wiki](https://github.com/nimble-technology/nimble-wiki)
 
-Use these instructions to configure your mining hardware and mine NIM.
+These instructions are targeted towards those who have a bit of command line experience with Linux.
 
-Instructions are available for Linux, Windows 11, and Mac.
 
-## Prerequisites
 
-#### Windows 11
+You can rent a Cloud GPU running Ubuntu 22.04 by using this link: [https://cloud.vast.ai](https://cloud.vast.ai/?ref\_id=94252\&template\_id=f69a685c54b1edb75f510a0abb6db807)\
+Set storage size to at least 250GB and use the following configuration:
 
-* Install Windows Subsystem for Linux (WSL)
-  * [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install)
-* Once completed, follow the Linux instructions below
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-### Mac Go Setup
+### Install GO
 
-* Download and install Golang
-  * [https://golang.org/dl/](https://golang.org/dl/)
-* Open a terminal window
-* Execute the following commands
-  1. `mkdir ~/go`
-  2. `export GOPATH=$HOME/go`
-  3. `export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin`
-  4. `go version`
+Get the link of the latest version here: [https://go.dev/dl/](https://go.dev/dl/) or just copy the commands below.
 
-It should display the go version, ex. `goX.X.X darwin/amd64`
+```
+sudo apt update
+wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+```
 
-### Linux/Windows Go Setup
+Check the Go version that was installed.
 
-* Open a terminal
-* Execute the following commands
-  * `sudo apt update`
-  * `sudo apt install golang`
-  * `export GOPATH=$HOME/go`
-  * `export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin`
-  * `go version`
+```
+go version
+```
 
-It should display the go version.
+It should display the go version 1.22.1.
 
 ### Install Nimble’s Wallet CLI
 
-Note: Git is required for the remaining setup steps.
+Note: Git is required to copy the Github repo of Nimble.
 
-* Open a terminal
-* Execute the following commands
-  * `mkdir $HOME/nimble && cd $HOME/nimble`
-  * `git clone https://github.com/nimble-technology/wallet-public.git`
-  * `cd wallet-public`
-  * `make install`
+```
+sudo apt install git
+mkdir $HOME/nimble && cd $HOME/nimble
+git clone https://github.com/nimble-technology/wallet-public.git
+cd wallet-public
+make install
+```
 
-### Get the nimble-networkd path
+### Generate a Nimble Wallet
 
-**Macbook**
+Navigate to the folder where the wallet was installed. Use the following commands.
 
-* Locate this path and confirm it exists
-  * `/Users/<you>/go/bin/nimble-networkd`
+```
+cd
+cd go/bin
+./nimble-networkd keys add <wallet_name>
+```
 
-**Linux/Windows**
+Type a passphrase, retype it.\
+A `nimblexxxx` address will be generated after following the necessary prompts. Save your address and the seed phrase in a secure place.
 
-* Locate this path and confirm it exists&#x20;
-  * `/home/ubuntu/go/bin/nimble-networkd`
-
-Copy this path value and use it in the next step.
-
-### Create your Wallet
-
-To begin, come up with a name for your wallet. We suggest "ilovenimble".
-
-* Execute the following command
-  * `[nimble-networkd path]/nimble-networkd keys add ilovenimble`
-  * `(Type your passphrase)`
-  * `(Save the seed phrase somewhere safe)`
-
-The “address: nimblexxxx” output means your Nimble Network wallet address was created successfully!
-
-## Start mining
-
-### Prepare Python Environment (Linux/Windows Only)
+### Setup Nimble Miner
 
 Note: python3.9 (or above) and pip3 are required for the remaining steps
 
-* Open a terminal window
-* Install venv for Linux
-  * `sudo apt update`
-  * `sudo apt install python3-venv`
+```
+sudo apt update
+sudo apt install python3-venv
+```
 
-This step is not required for Mac.
+Build the miner
 
-### Start Mining&#x20;
+```
+cd
+cd nimble
+git clone https://github.com/nimble-technology/nimble-miner-public.git
+cd nimble-miner-public
+make install
+```
 
-* Open a terminal window
-  * `cd  $HOME/nimble`
-  * `git clone https://github.com/nimble-technology/nimble-miner-public.git`
-  * `cd nimble-miner-public`
-  * `make install`
-  * `source ./nimenv_localminers/bin/activate`
-  * `make run addr=<copy paste your “nimblexxx” wallet address here>`
+Activate the miner
 
-To resume mining after your machine disconnects, re-run the command:
+```
+source ./nimenv_localminers/bin/activate
+```
 
-`make run addr=<copy paste your “nimblexxx” wallet address here>`
+### Run Nimble Miner
 
-## Congrats 😘
+Copy the Nimble address generated from the Nimble wallet. Replace the \<wallet\_address> on the command below.
+
+```
+make run addr=<wallet_address>
+```
+
+You can stop the miner by pressing CTRL+C\
+To resume mining, re-run the command.
+
+
+
+### Troubleshooting
+
+* Build Errors\
+  Having an older version of GO will cause errors in building the wallet and miner.\
+  Uninstall GO by running these commands one at a time.
+
+```
+sudo apt-get remove golang-go
+```
+
+```
+sudo apt-get remove --auto-remove golang-go
+```
+
+\===========
 
 You are now mining NIM!
 
-For assistance, find us in our Discord server - [https://discord.gg/nimble](https://discord.gg/nimble)
+For assistance, Join Nimble Discord server - [https://discord.gg/nimble](https://discord.gg/nimble)\
+Official website - [https://www.nimble.technology](https://www.nimble.technology/)
 
-\
-
-
-\
